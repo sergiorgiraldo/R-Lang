@@ -5,3 +5,4 @@ coeffs = coefficients(poverty.lm); coeffs
 
 newdata = data.frame(PovPct=7.1)
 predict(poverty.lm, newdata, interval="confidence") #95% of confidence
+
