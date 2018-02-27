@@ -1,5 +1,6 @@
 library("genalg")
-values <- c(10,12,20,30,40,12,3,12,15,15,30,15,41,10,12)
+#get transactions from db
+values <- c(10,12,20,30,40,12,3,12,15,15,30,15,41,10,12) 
 howMuchToAntecipate <- 82
 evalFunc <- function(chromosome) {
   currentSum <- sum(chromosome %*% values)
@@ -12,4 +13,4 @@ GAmodel <- rbga.bin(size = length(values), popSize = 200, iters = iter, mutation
 solution<-GAmodel$population[which.min(GAmodel$evaluations),]
 values[solution == 1]
 sum(values[solution == 1])
-plot(GAmodel)
+#plot(GAmodel)
