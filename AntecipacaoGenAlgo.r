@@ -1,14 +1,12 @@
-
 library("genalg")
 
 transactions <- sample.int(1000, sample.int(300, 1))
-
 howMuchToAntecipate <- 3000
 
 evalFunc <- function(chromossome) {
   currentSum <- sum(chromossome %*% transactions)
   if (currentSum > howMuchToAntecipate )
-    return(sum(transactions) + 1)
+    return(currentSum)
   else
     return(-currentSum)
 }
@@ -23,8 +21,9 @@ GAmodel <- rbga.bin(size = length(transactions),
                     evalFunc = evalFunc)
 solution<-GAmodel$population[which.min(GAmodel$evaluations),]
 
-transactions
-transactions[solution == 1]
-sum(transactions[solution == 1])
+cat("transactions", "\n", transactions)
+cat("\n\nsolution", "\n", solution, "\n\n", transactions[solution == 1])
+cat("\n\ncalculated/given:", sum(transactions[solution == 1]), "/", howMuchToAntecipate, "\n\n")
 
 plot(GAmodel)
+exit
