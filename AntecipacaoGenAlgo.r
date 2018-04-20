@@ -21,9 +21,12 @@ GAmodel <- rbga.bin(size = length(transactions),
                     evalFunc = evalFunc)
 solution<-GAmodel$population[which.min(GAmodel$evaluations),]
 
-cat("transactions", "\n", transactions)
-cat("\n\nsolution", "\n", solution, "\n\n", transactions[solution == 1])
-cat("\n\ncalculated/given:", sum(transactions[solution == 1]), "/", howMuchToAntecipate, "\n\n")
+print("transactions")
+print(transactions)
+print("solution")
+print(solution)
+print(transactions[solution == 1])
+paste("calculated/given : ",sum(transactions[solution == 1]), "/", howMuchToAntecipate)
 
 plot(GAmodel)
-exit
+
