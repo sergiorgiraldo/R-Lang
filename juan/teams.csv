@@ -1,0 +1,9 @@
+name;total;dependsOn;essential
+salvador;4;;n
+alcatraz;3;;n
+berkeley;5;;n
+petras;4;ama;n
+ama;4;petras;n
+rosinholi;1;petras,ama;n
+sandro;1;;n
+phoenix;3;;y

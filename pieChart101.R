@@ -1,0 +1,13 @@
+require(XLConnect)
+wb <- loadWorkbook("C:/Users/sgiraldo/source/R/foo.xlsx")
+myDf <- readWorksheet(wb, sheet = "Sheet2", header = TRUE)
+idadeTable <- table(myDf$Idade)
+labelsIdade <- paste("(",names(idadeTable),")", "\n", idadeTable, sep="")
+pct <- round(idadeTable/sum(idadeTable)*100)
+labelsIdade <- paste(labelsIdade, pct,sep="-") 
+labelsIdade <- paste(labelsIdade,"%") 
+pie(idadeTable, col=rainbow(length(labelsIdade)), labels = labelsIdade)
+
+timesTable <- table(myDf$Time)
+labelsTimes <- paste("(",names(timesTable),")", "\n", timesTable, sep="")
+pie(timesTable, col=rainbow(length(labelsTimes)), labels = labelsTimes)
