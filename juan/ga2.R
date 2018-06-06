@@ -1,5 +1,4 @@
-library(genalg)
-library(ga)
+library(GA)
 
 teams <- read.csv("C:\\Users\\sgiraldo\\source\\r\\juan\\teams.csv",sep=";")
 floorCapacity <- 150
@@ -26,7 +25,7 @@ evalFunc <- function(chromosome) {
   currCapacityMonday	 <- (floorCapacity - sum(mondayTeams$total))
   ifelse(currCapacityMonday	 < 0, currCapacityMonday <- 999, #infeasibility 
          currCapacityMonday	 <- currCapacityMonday/floorCapacity)
-    #divide by floorCapacity for normalization
+  #divide by floorCapacity for normalization
   
   currCapacityTuesday <- (floorCapacity - sum(tuesdayTeams$total))
   ifelse(currCapacityTuesday < 0, currCapacityTuesday <- 999, #infeasibility  
@@ -55,7 +54,7 @@ evalFunc <- function(chromosome) {
       currViolationsConsecutiveDaysAll <- 999 #infeasibility
       break
     }
-
+    
     #teams at home all days
     if (sum(mondayValues[idx], tuesdayValues[idx], wednesdayValues[idx], thursdayValues[idx], fridayValues[idx]) == 0){
       currViolationsConsecutiveDaysNone <- 999 #infeasibility
@@ -69,7 +68,7 @@ evalFunc <- function(chromosome) {
   
   #********************************************************#
   #restriction 3: dependencies must be enforced
-
+  
   checkDependencies <- function(dayOfWeekTeams){
     violations <-0
     for (dependencies in dayOfWeekTeams$dependsOn){
@@ -83,20 +82,20 @@ evalFunc <- function(chromosome) {
     }  
     return(violations)
   }
-
+  
   totalDependencies <- 0 
   for (dependencies in teams$dependsOn){
     if (dependencies != ""){
       totalDependencies <- totalDependencies + length(unlist(strsplit(dependencies,",")))
     }
   }  
-
+  
   currViolationsDependenciesMonday	   <- checkDependencies(mondayTeams)/totalDependencies #normalization
   currViolationsDependenciesTuesday    <- checkDependencies(tuesdayTeams)/totalDependencies #normalization
   currViolationsDependenciesWednesday  <- checkDependencies(wednesdayTeams)/totalDependencies #normalization
   currViolationsDependenciesThursday   <- checkDependencies(thursdayTeams)/totalDependencies #normalization
   currViolationsDependenciesFriday     <- checkDependencies(fridayTeams)/totalDependencies #normalization
-
+  
   #********************************************************#
   #restriction 4: no more than 15% of managers
   currViolationManagersMonday <- 0
@@ -138,73 +137,54 @@ evalFunc <- function(chromosome) {
   ifelse(currVacancyFriday > 0.10, currViolationVacancyFriday <- 999, currViolationVacancyFriday <- 0)
   
   return(
-      sum(
-          # currCapacityMonday
-          # ,currCapacityTuesday
-          # ,currCapacityWednesday
-          # ,currCapacityThursday
-          # ,currCapacityFriday
-          currViolationVacancyMonday
-          ,currViolationVacancyTuesday
-          ,currViolationVacancyWednesday
-          ,currViolationVacancyThursday
-          ,currViolationVacancyFriday
-          #,currViolationsConsecutiveDaysAll
-          #,currViolationsConsecutiveDaysNone      
-          #,currViolationsDependenciesMonday
-          #,currViolationsDependenciesTuesday
-          #,currViolationsDependenciesWednesday
-          #,currViolationsDependenciesThursday
-          #,currViolationsDependenciesFriday
-          #,currViolationManagersMonday
-          #,currViolationManagersTuesday
-          #,currViolationManagersWednesday
-          #,currViolationManagersThursday
-          #,currViolationManagersFriday
-          )
-      )
-}
-
-monitorFunc <- function(model) {
-  minEval <- min(model$evaluations)
-  filter  <- model$evaluations == minEval
-  bestObjectCount <- sum(rep(1, model$popSize)[filter])
-  
-  # maybe more than one object is best
-  ifelse (bestObjectCount > 1,
-          bestSolution <- model$population[filter,][1,],
-          bestSolution <- model$population[filter,]
+    sum(
+         currCapacityMonday
+         ,currCapacityTuesday
+         ,currCapacityWednesday
+         ,currCapacityThursday
+         ,currCapacityFriday
+         ,currViolationVacancyMonday
+         ,currViolationVacancyTuesday
+         ,currViolationVacancyWednesday
+         ,currViolationVacancyThursday
+         ,currViolationVacancyFriday
+         ,currViolationsConsecutiveDaysAll
+         ,currViolationsConsecutiveDaysNone
+         ,currViolationsDependenciesMonday
+         ,currViolationsDependenciesTuesday
+         ,currViolationsDependenciesWednesday
+         ,currViolationsDependenciesThursday
+         ,currViolationsDependenciesFriday
+         ,currViolationManagersMonday
+         ,currViolationManagersTuesday
+         ,currViolationManagersWednesday
+         ,currViolationManagersThursday
+         ,currViolationManagersFriday
+    )
   )
-  
-  outputBest <- paste(model$iter, " #selected=", sum(bestSolution)," Best (Error=", minEval, ")\n", sep="")
-  #for (var in 1:length(bestSolution)) {
-  #  outputBest <- paste(outputBest, bestSolution[var], " ", sep="")
-  #}
-  plot(model, type="hist")
-  cat(outputBest)
 }
 
-GAmodel <- rbga.bin(size = 5 * nrow(teams), popSize = 500, iters = 500, mutationChance = 0.20, elitism = T, evalFunc = evalFunc , monitorFunc = monitorFunc)
+GA2 <- ga2("binary", 
+          fitness = evalFunc, 
+          nBits = 5 * nrow(teams), popSize = 1000, 
+          pcrossover = 0.8, pmutation = 0.5,
+          elitism = 30, 
+          maxiter = 1000, run = 200,
+          numIslands = 4, 
+          migrationRate = 0.1, 
+          migrationInterval = 10
+)
 
-cat(summary(GAmodel))
-chromosome<-GAmodel$population[which.min(GAmodel$evaluations),]
+summary(GA2)
+plot(GA2)
 
-#solution is distribution of teams alongside the week
-print("Chromosome") 
+chromosome <- GA2@solution
 chromosome
-
 cat("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "\n",
-      sum(teams[chromosome[(nrow(teams) * 0 + 1) :(1 *nrow(teams))] == 1, ]$total),
-      sum(teams[chromosome[(nrow(teams) * 1 + 1) :(2 *nrow(teams))] == 1, ]$total),
-      sum(teams[chromosome[(nrow(teams) * 2 + 1) :(3 *nrow(teams))] == 1, ]$total),
-      sum(teams[chromosome[(nrow(teams) * 3 + 1) :(4 *nrow(teams))] == 1, ]$total),
-      sum(teams[chromosome[(nrow(teams) * 4 + 1) :(5 *nrow(teams))] == 1, ]$total),"\n")      
+    sum(teams[chromosome[(nrow(teams) * 0 + 1) :(1 *nrow(teams))] == 1, ]$total),
+    sum(teams[chromosome[(nrow(teams) * 1 + 1) :(2 *nrow(teams))] == 1, ]$total),
+    sum(teams[chromosome[(nrow(teams) * 2 + 1) :(3 *nrow(teams))] == 1, ]$total),
+    sum(teams[chromosome[(nrow(teams) * 3 + 1) :(4 *nrow(teams))] == 1, ]$total),
+    sum(teams[chromosome[(nrow(teams) * 4 + 1) :(5 *nrow(teams))] == 1, ]$total),"\n") 
 
-#teams[chromosome[(nrow(teams) * 0 + 1) :(1 *nrow(teams))] == 1, ]
-#teams[chromosome[(nrow(teams) * 1 + 1) :(2 *nrow(teams))] == 1, ]
-#teams[chromosome[(nrow(teams) * 2 + 1) :(3 *nrow(teams))] == 1, ]
-#teams[chromosome[(nrow(teams) * 3 + 1) :(4 *nrow(teams))] == 1, ]
-#teams[chromosome[(nrow(teams) * 4 + 1) :(5 *nrow(teams))] == 1, ]
-
-plot(GAmodel)
 
