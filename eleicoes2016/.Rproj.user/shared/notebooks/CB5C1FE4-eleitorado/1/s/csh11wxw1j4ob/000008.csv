@@ -1,0 +1,7 @@
+"0","library(""dplyr"")
+"
+"2","Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘pillar’
+"
+"2","Error: package or namespace load failed for ‘dplyr’
+"
