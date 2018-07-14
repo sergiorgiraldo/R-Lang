@@ -1,9 +1,116 @@
-name;total;dependsOn;essential
-salvador;4;;n
-alcatraz;3;;n
-berkeley;5;;n
-petras;4;ama;n
-ama;4;petras;n
-rosinholi;1;petras,ama;n
-sandro;1;;n
-phoenix;3;;y
+name;total;dependsOn;mgr
+Cumbuco;3;Cesar Leite,Marco Antonio de Almeida (UOL Corp),Alexandre Niz da Silva;n
+CLOUDSEC;3;Fabio Alves,Jean Delboux;n
+N2;3;Fabio Alves,Julio Francisco Dourado,Rodrigo SantAna;n
+Darwin;3;Fabio Alves,Danilo Marchetti;n
+Atlanta;3;Evelise Yoshimi,Carlos Magno,Boaz Trindade da Silva;n
+Dallas;3;Evelise Yoshimi,Carlos Magno,Boaz Trindade da Silva;n
+Monte Azul;3;Evelise Yoshimi,Carlos Magno,Rafael Nanya de Souza;n
+Payment UX;3;Bruno Gambier,Bruno Fermino,Rodolfo Ferreira Fioravante;n
+Detroit;3;Charles Lopes,Mauricio Chui Rodrigues,Fausto Luiz Cursino dos Santos;n
+Payment APIs;3;Bruno Gambier,Bruno Fermino,Walter Vieira Soares de Amorim;n
+Curitiba;3;Evelise Yoshimi,Carlos Magno,Adriano Alves Dornelas;n
+Niteroi;3;Mariana Zaparolli,Mariana Zaparolli,Demetrius Moro;n
+Cali;3;Charles Lopes,Fabiano Paes Landim Freires,Marcelo Vaz do Amaral Pereira;n
+Medelin;3;Charles Lopes,Fabiano Paes Landim Freires,Marcelo Vaz do Amaral Pereira;n
+Minneapolis;3;Charles Lopes,Fabiano Paes Landim Freires,Marcelo Vaz do Amaral;n
+Trindade;3;Gabriel Preti,Carlitos,Adriano San Vicente;n
+Atenas;3;Cesar Leite,Daniel Donizete de Faria;n
+Fortaleza;3;Cesar Leite,Daniel Donizete de Faria,Daniel Donizete de Faria;n
+Zurique;3;Gabriel Preti,Carlitos,Rangel Falcao;n
+Marte;3;Cesar Leite,Daniel Donizete de Faria,Daniel Donizete de Faria;n
+Petra;3;Charles Lopes,Elaine Quintino da Silva,Mario Chaves de Lima Filho;n
+Genebra;3;Gabriel Preti,Carlitos,Adriano San Vicente;n
+Toquio;3;Charles Lopes,Fabiano Paes Landim Freires,Milton Takashi Nakashima;n
+Toyota;3;Charles Lopes,Fabiano Paes Landim Freires,Milton Takashi Nakashima;n
+Sao Francisco;3;Evelise Yoshimi,Nao tem,Antonio de Paduas Freitas Saraiva Junior;n
+Los Angeles;3;Cesar Leite,Sem,Rafael Henrique Pavanelli;n
+Xangai;3;Bruno Gambier,Bruno Fermino,Marcelo Souza Silva;n
+Edimburgo;3;Evelise Yoshimi,Ana Aoki,Pedro Ivo Correia de Araujo;n
+Joinville;3;Evelise Yoshimi,Ana Aoki,Pedro Ivo Correia de Araujo;n
+Beta;3;,David Kelleher,Renata Bertonili;n
+Everest;3;Gabriel Preti,Carlitos,Adriano San Vicente;n
+Malaga;3;Charles Lopes,Mauricio Chui Rodrigues,Rafael Peixoto Teixeira de Freitas;n
+Yokohama;3;Charles Lopes,Mauricio Chui Rodrigues,Rafael Peixoto Teixeira de Freitas;n
+Baden;3;Gabriel Preti,Carlitos,Renato Damasceno;n
+Salvador;3;Gabriel Preti,Carlitos,Renato Damasceno;n
+Lucerna;3;Gabriel Preti,Carlitos,Rangel Falcao;n
+Veneza;3;Evelise Yoshimi,Ana Aoki,Luciano Taveira da Cruz;n
+Albuquerque;3;Cesar Leite,Sem,Rafael Henrique Pavanelli;n
+Grandes Contas: Dashboard;3;Evelise Yoshimi,Carlos Magno,Antonio;n
+Grandes Contas: Embarque;3;Evelise Yoshimi,Carlos Magno,Antonio;n
+Grandes Contas: Financeiro;3;Evelise Yoshimi,Carlos Magno,Antonio;n
+Manchester;3;Gabriel Preti,Italo Fassina;n
+Praga;3;Gabriel Preti,Nao tem,Guilherme Savietto Adam;n
+Paysandu;3;Charles Lopes,Elaine Quintino da Silva,Thais Tanigami Hashimoto;n
+Rivera;3;Charles Lopes,Elaine Quintino da Silva,Thais Tanigami Hashimoto;n
+Salto;3;Charles Lopes,Elaine Quintino da Silva,Thais Tanigami Hashimoto;n
+Passa Quatro;3;Charles Lopes,Mauricio Chui Rodrigues,Rubens Ernesto Rovani Junior;n
+Pyongyang;3;Charles Lopes,Mauricio Chui Rodrigues,Rubens Ernesto Rovani Junior;n
+Hiroshima;3;Cesar Leite,Sem,Francisco Eduardo Lucena Rocha;n
+Phoenix;3;Charles Lopes,Elaine Quintino da Silva;n
+Pompeia;3;Charles Lopes,Elaine Quintino da Silva,Artur Orlando Leite Jorge de Faria;n
+Abu dhabi;3;Evelise Yoshimi,Carlos Magno,Rafael Nanya de Souza;n
+Grandes Contas: SEC / Permissionamento;3;Evelise Yoshimi,Carlos Magno;n
+APPSEC;3;Fabio Alves,Jean Delboux;n
+ENGSEC;3;Fabio Alves,Jairo Pereira;n
+GRCSEC;3;Fabio Alves,Jairo Pereira;n
+N1;3;Fabio Alves,Julio Francisco Dourado,Mirian Sefrin;n
+TEF - Operacoes;3;Fabio Alves,Julio Francisco Dourado,Helio Conceicao;n
+Alepo;3;Gabriel Preti,Nao tem,Guilherme Savietto Adam;n
+Atenas (provisorio);3;Leandro Piano,Afonso Massao Yamaguchi,Vagna Lidiane Santos;n
+Londres;3;Leandro Piano,Afonso Massao Yamaguchi,Rafael Alves de Oliveira;n
+Serra Pelada;3;Leandro Piano,Afonso Massao Yamaguchi,Bruno Maia;n
+Berkeley;3;Sergio Rodrigues Giraldo;n
+Galapagos;3;;n
+Sao Paulo;3;Amanda Carvalho Santana;n
+Atacama;3;Bruno Gambier,Bruno Fermino,Marcelo Souza Silva;n
+Payment Core II;3;Bruno Gambier,Bruno Fermino,Rodolfo Ferreira Fioravante;n
+Payment Core I;3;Bruno Gambier,Bruno Fermino,Rodolfo Ferreira Fioravante;n
+Payment Gateway;3;Bruno Gambier,Bruno Fermino;n
+Connect;3;Bruno Gambier,Bruno Fermino,Walter Vieira Soares de Amorim;n
+Social Commerce;3;Bruno Gambier,Bruno Fermino,Walter Vieira Soares de Amorim;n
+Frankfurt;3;Cesar Leite,Daniel Donizete de Faria,Ester Farias;n
+Nova Deli;3;Cesar Leite,Daniel Donizete de Faria,Ester Farias;n
+Bahamas;3;Cesar Leite,Sem,Rafael Henrique Pavanelli;n
+Cupertino;3;Charles Lopes,Fabiano Paes Landim Freires,Talita Titton Zucatto;n
+Manaus;3;Charles Lopes,Fabiano Paes Landim Freires,Talita Titton Zucatto;n
+Shenzhen;3;Charles Lopes,Fabiano Paes Landim Freires,Talita Titton Zucatto;n
+Sippar;3;Gabriel Preti,Carlitos,Adriano San Vicente;n
+Erebor;3;Cesar Leite,Carlos Ferraz,Valdemir Fernandes de Ramos;n
+Rivendell;3;Cesar Leite,Carlos Ferraz,Valdemir Fernandes de Ramos;n
+Alexandre Niz da Silva;1;;y
+Ana Aoki;1;;y
+Antonio de Paduas Freitas Saraiva Junior;1;;y
+Boaz Trindade da Silva;1;;y
+Bruno Fermino;1;;y
+Bruno Gambier;1;;y
+Carlitos;1;;y
+Carlos Magno;1;;y
+Charles Lopes;1;;y
+Cesar Leite;1;;y
+Daniel Donizete de Faria;1;;y
+Danilo Marchetti;1;;y
+Demetrius Moro;1;;y
+Elaine Quintino da Silva;1;;y
+Evelise Yoshimi;1;;y
+Fabiano Paes Landim Freires;1;;y
+Fausto Luiz Cursino dos Santos;1;;y
+Fabio Alves;1;;y
+Gabriel Preti;1;;y
+Jean Delboux;1;;y
+Julio Francisco Dourado;1;;y
+Marcelo Souza Silva;1;;y
+Marcelo Vaz do Amaral Pereira;1;;y
+Marco Antonio de Almeida (UOL Corp);1;;y
+Mariana Zaparolli;1;;y
+Mauricio Chui Rodrigues;1;;y
+Milton Takashi Nakashima;1;;y
+Mario Chaves de Lima Filho;1;;y
+Pedro Ivo Correia de Araujo;1;;y
+Rafael Henrique Pavanelli;1;;y
+Rafael Nanya de Souza;1;;y
+Rangel Falcao;1;;y
+Rodolfo Ferreira Fioravante;1;;y
+Rodrigo SantAna;1;;y
+Walter Vieira Soares de Amorim;1;;y
