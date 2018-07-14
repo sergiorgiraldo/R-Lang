@@ -12,6 +12,31 @@ library("dplyr")
 library("lubridate")
 ```
 
+```{r init}
+base <- read.csv2("eleitorado.csv",fileEncoding = "UTF-8")
+ 
+```
 
-## R Markdown
+## Quantos eleitores havia no Brasil em 2016?
+```{r}
+sum(base$ELEITORADO.APTO)
+```
+## Quantos eleitores por sexo havia no Brasil em 2016?
+```{r}
+paste("FEMININO: ", sum(base$FEMININO))
+paste("MASCULINO: ", sum(base$MASCULINO))
+```
+## Quais estados têm mais eleitores com menos que 35 anos do que com mais que 25 havia no Brasil em 2016?
+```{r}
+base %>% 
+  mutate(MENOR_QUE_35 = rowSums(select(.,X16.ANOS : X25.A.34.ANOS)),
+         MAIOR_QUE_35 = rowSums(select(.,X35.A.44.ANOS : SUPERIOR.A.79.ANOS))) %>%
+  filter(MENOR_QUE_35 > MAIOR_QUE_35) %>%
+  group_by(UF) %>%
+  distinct(UF)
+
+```
+
+
+
 
