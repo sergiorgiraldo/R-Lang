@@ -125,23 +125,23 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>baseEleleitorado &lt;- read.csv2(&quot;eleitorado.csv&quot;,fileEncoding = &quot;UTF-8&quot;)
+<pre class="r"><code>baseEleitorado &lt;- read.csv2(&quot;eleitorado.csv&quot;,fileEncoding = &quot;UTF-8&quot;)
 baseVotacao  &lt;- read.csv2(&quot;votacao.csv&quot;,fileEncoding = &quot;UTF-8&quot;)</code></pre>
 <div id="quantos-eleitores-havia-no-brasil-em-2016" class="section level2">
 <h2>Quantos eleitores havia no Brasil em 2016?</h2>
-<pre class="r"><code>sum(baseEleleitorado$ELEITORADO.APTO)</code></pre>
+<pre class="r"><code>sum(baseEleitorado$ELEITORADO.APTO)</code></pre>
 <pre><code>## [1] 144088912</code></pre>
 </div>
 <div id="quantos-eleitores-por-sexo-havia-no-brasil-em-2016" class="section level2">
 <h2>Quantos eleitores por sexo havia no Brasil em 2016?</h2>
-<pre class="r"><code>paste(&quot;FEMININO: &quot;, sum(baseEleleitorado$FEMININO))</code></pre>
+<pre class="r"><code>paste(&quot;FEMININO: &quot;, sum(baseEleitorado$FEMININO))</code></pre>
 <pre><code>## [1] &quot;FEMININO:  75226056&quot;</code></pre>
-<pre class="r"><code>paste(&quot;MASCULINO: &quot;, sum(baseEleleitorado$MASCULINO))</code></pre>
+<pre class="r"><code>paste(&quot;MASCULINO: &quot;, sum(baseEleitorado$MASCULINO))</code></pre>
 <pre><code>## [1] &quot;MASCULINO:  68767634&quot;</code></pre>
 </div>
 <div id="quais-estados-tem-mais-eleitores-com-menos-que-35-anos-do-que-com-mais-que-25-havia-no-brasil-em-2016" class="section level2">
 <h2>Quais estados têm mais eleitores com menos que 35 anos do que com mais que 25 havia no Brasil em 2016?</h2>
-<pre class="r"><code>baseEleleitorado %&gt;% 
+<pre class="r"><code>baseEleitorado %&gt;% 
   mutate(MENOR_QUE_35 = rowSums(select(.,X16.ANOS : X25.A.34.ANOS)),
          MAIOR_QUE_35 = rowSums(select(.,X35.A.44.ANOS : SUPERIOR.A.79.ANOS))) %&gt;%
   filter(MENOR_QUE_35 &gt; MAIOR_QUE_35) %&gt;%
@@ -195,6 +195,29 @@ baseVotacao  &lt;- read.csv2(&quot;votacao.csv&quot;,fileEncoding = &quot;UTF-8&
   summarise(TOTAL = sum(QTDE_VOTOS_NOMINAIS, na.rm = TRUE))</code></pre>
 <pre><code>##   TOTAL
 ## 1 74422</code></pre>
+</div>
+<div id="quais-estados-tem-mais-votantes-femininos-que-masculinos-exiba-as-quantidades-de-homens-e-mulheres-votantes.-spoiler-todos" class="section level2">
+<h2>Quais estados tem mais votantes femininos que masculinos? Exiba as quantidades de homens e mulheres votantes. (SPOILER: TODOS!!!!!!!!!)</h2>
+<pre class="r"><code>baseEleitorado %&gt;% 
+  group_by(UF) %&gt;% 
+  mutate(T_FEMININO = sum(FEMININO), T_MASCULINO = sum(MASCULINO)) %&gt;% 
+  filter(T_FEMININO &gt; T_MASCULINO) %&gt;% 
+  distinct(UF, T_FEMININO, T_MASCULINO) </code></pre>
+<pre><code>## # A tibble: 26 x 3
+## # Groups:   UF [26]
+##    UF    T_FEMININO T_MASCULINO
+##    &lt;fct&gt;      &lt;int&gt;       &lt;int&gt;
+##  1 AC        271850      260598
+##  2 AL       1142487     1004033
+##  3 AM       1185868     1134335
+##  4 AP        248416      239029
+##  5 BA       5509991     5053946
+##  6 CE       3328331     2991782
+##  7 ES       1412860     1301956
+##  8 GO       2325613     2138616
+##  9 MA       2375505     2234603
+## 10 MG       8108910     7570708
+## # ... with 16 more rows</code></pre>
 </div>
 
 

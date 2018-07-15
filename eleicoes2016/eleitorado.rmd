@@ -13,22 +13,22 @@ library("lubridate")
 ```
 
 ```{r init}
-baseEleleitorado <- read.csv2("eleitorado.csv",fileEncoding = "UTF-8")
+baseEleitorado <- read.csv2("eleitorado.csv",fileEncoding = "UTF-8")
 baseVotacao  <- read.csv2("votacao.csv",fileEncoding = "UTF-8")
 ```
 
 ## Quantos eleitores havia no Brasil em 2016?
 ```{r}
-sum(baseEleleitorado$ELEITORADO.APTO)
+sum(baseEleitorado$ELEITORADO.APTO)
 ```
 ## Quantos eleitores por sexo havia no Brasil em 2016?
 ```{r}
-paste("FEMININO: ", sum(baseEleleitorado$FEMININO))
-paste("MASCULINO: ", sum(baseEleleitorado$MASCULINO))
+paste("FEMININO: ", sum(baseEleitorado$FEMININO))
+paste("MASCULINO: ", sum(baseEleitorado$MASCULINO))
 ```
 ## Quais estados têm mais eleitores com menos que 35 anos do que com mais que 25 havia no Brasil em 2016?
 ```{r}
-baseEleleitorado %>% 
+baseEleitorado %>% 
   mutate(MENOR_QUE_35 = rowSums(select(.,X16.ANOS : X25.A.34.ANOS)),
          MAIOR_QUE_35 = rowSums(select(.,X35.A.44.ANOS : SUPERIOR.A.79.ANOS))) %>%
   filter(MENOR_QUE_35 > MAIOR_QUE_35) %>%
@@ -57,5 +57,26 @@ baseVotacao %>%
 
 ```
 
+## Quais estados tem mais votantes femininos que masculinos? Exiba as quantidades de homens e mulheres votantes. (SPOILER: TODOS!!!!!!!!!)
 
+```{r}
+baseEleitorado %>% 
+  group_by(UF) %>% 
+  mutate(T_FEMININO = sum(FEMININO), T_MASCULINO = sum(MASCULINO))  %>% 
+  filter(T_FEMININO > T_MASCULINO) %>% 
+  distinct(UF, T_FEMININO, T_MASCULINO) 
+``` 
+
+## E que estado a diferencça entre votantes femininos e masculinos é maior? E menor?
+
+```{r}
+baseEleitorado %>% 
+  group_by(UF) %>% 
+  mutate(PERCENT_FEM_MASC = (((sum(FEMININO) / sum(MASCULINO)) -1)*100))  %>% 
+  group_by(UF,PERCENT_FEM_MASC) %>% 
+  distinct(UF, PERCENT_FEM_MASC) %>% 
+  arrange(desc(PERCENT_FEM_MASC)) %>% 
+  ungroup() %>% 
+  slice(c(1,n()))
+``` 
 
