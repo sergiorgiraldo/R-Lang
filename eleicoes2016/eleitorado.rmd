@@ -13,22 +13,22 @@ library("lubridate")
 ```
 
 ```{r init}
-base <- read.csv2("eleitorado.csv",fileEncoding = "UTF-8")
- 
+baseEleleitorado <- read.csv2("eleitorado.csv",fileEncoding = "UTF-8")
+baseVotacao  <- read.csv2("votacao.csv",fileEncoding = "UTF-8")
 ```
 
 ## Quantos eleitores havia no Brasil em 2016?
 ```{r}
-sum(base$ELEITORADO.APTO)
+sum(baseEleleitorado$ELEITORADO.APTO)
 ```
 ## Quantos eleitores por sexo havia no Brasil em 2016?
 ```{r}
-paste("FEMININO: ", sum(base$FEMININO))
-paste("MASCULINO: ", sum(base$MASCULINO))
+paste("FEMININO: ", sum(baseEleleitorado$FEMININO))
+paste("MASCULINO: ", sum(baseEleleitorado$MASCULINO))
 ```
 ## Quais estados têm mais eleitores com menos que 35 anos do que com mais que 25 havia no Brasil em 2016?
 ```{r}
-base %>% 
+baseEleleitorado %>% 
   mutate(MENOR_QUE_35 = rowSums(select(.,X16.ANOS : X25.A.34.ANOS)),
          MAIOR_QUE_35 = rowSums(select(.,X35.A.44.ANOS : SUPERIOR.A.79.ANOS))) %>%
   filter(MENOR_QUE_35 > MAIOR_QUE_35) %>%
@@ -37,6 +37,25 @@ base %>%
 
 ```
 
+## Quantos votos nominais cada partido teve?
+
+```{r}
+baseVotacao %>% 
+  group_by(SIGLA_PARTIDO) %>%
+  summarise(TOTAL = sum(QTDE_VOTOS_NOMINAIS, na.rm = TRUE)) %>% 
+  arrange(desc(TOTAL))
+
+```
+
+
+## Quantos votos nominais o DEM (Democratas) teve em Roraima?
+
+```{r}
+baseVotacao %>% 
+  filter(SIGLA_UF == "RO", SIGLA_PARTIDO == "DEM") %>%
+  summarise(TOTAL = sum(QTDE_VOTOS_NOMINAIS, na.rm = TRUE))
+
+```
 
 
 

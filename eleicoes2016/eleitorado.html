@@ -125,22 +125,23 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>base &lt;- read.csv2(&quot;eleitorado.csv&quot;,fileEncoding = &quot;UTF-8&quot;)</code></pre>
+<pre class="r"><code>baseEleleitorado &lt;- read.csv2(&quot;eleitorado.csv&quot;,fileEncoding = &quot;UTF-8&quot;)
+baseVotacao  &lt;- read.csv2(&quot;votacao.csv&quot;,fileEncoding = &quot;UTF-8&quot;)</code></pre>
 <div id="quantos-eleitores-havia-no-brasil-em-2016" class="section level2">
 <h2>Quantos eleitores havia no Brasil em 2016?</h2>
-<pre class="r"><code>sum(base$ELEITORADO.APTO)</code></pre>
+<pre class="r"><code>sum(baseEleleitorado$ELEITORADO.APTO)</code></pre>
 <pre><code>## [1] 144088912</code></pre>
 </div>
 <div id="quantos-eleitores-por-sexo-havia-no-brasil-em-2016" class="section level2">
 <h2>Quantos eleitores por sexo havia no Brasil em 2016?</h2>
-<pre class="r"><code>paste(&quot;FEMININO: &quot;, sum(base$FEMININO))</code></pre>
+<pre class="r"><code>paste(&quot;FEMININO: &quot;, sum(baseEleleitorado$FEMININO))</code></pre>
 <pre><code>## [1] &quot;FEMININO:  75226056&quot;</code></pre>
-<pre class="r"><code>paste(&quot;MASCULINO: &quot;, sum(base$MASCULINO))</code></pre>
+<pre class="r"><code>paste(&quot;MASCULINO: &quot;, sum(baseEleleitorado$MASCULINO))</code></pre>
 <pre><code>## [1] &quot;MASCULINO:  68767634&quot;</code></pre>
 </div>
 <div id="quais-estados-tem-mais-eleitores-com-menos-que-35-anos-do-que-com-mais-que-25-havia-no-brasil-em-2016" class="section level2">
 <h2>Quais estados têm mais eleitores com menos que 35 anos do que com mais que 25 havia no Brasil em 2016?</h2>
-<pre class="r"><code>base %&gt;% 
+<pre class="r"><code>baseEleleitorado %&gt;% 
   mutate(MENOR_QUE_35 = rowSums(select(.,X16.ANOS : X25.A.34.ANOS)),
          MAIOR_QUE_35 = rowSums(select(.,X35.A.44.ANOS : SUPERIOR.A.79.ANOS))) %&gt;%
   filter(MENOR_QUE_35 &gt; MAIOR_QUE_35) %&gt;%
@@ -165,6 +166,35 @@ $(document).ready(function () {
 ## 13 RR   
 ## 14 SE   
 ## 15 TO</code></pre>
+</div>
+<div id="quantos-votos-nominais-cada-partido-teve" class="section level2">
+<h2>Quantos votos nominais cada partido teve?</h2>
+<pre class="r"><code>baseVotacao %&gt;% 
+  group_by(SIGLA_PARTIDO) %&gt;%
+  summarise(TOTAL = sum(QTDE_VOTOS_NOMINAIS, na.rm = TRUE)) %&gt;% 
+  arrange(desc(TOTAL))</code></pre>
+<pre><code>## # A tibble: 36 x 2
+##    SIGLA_PARTIDO    TOTAL
+##    &lt;fct&gt;            &lt;int&gt;
+##  1 PSDB          29773312
+##  2 PMDB          26728023
+##  3 PSB           16088173
+##  4 PSD           15586066
+##  5 PDT           13697534
+##  6 PT            12868648
+##  7 PP            11608425
+##  8 PR            10527901
+##  9 DEM           10018175
+## 10 PRB            9933576
+## # ... with 26 more rows</code></pre>
+</div>
+<div id="quantos-votos-nominais-o-dem-democratas-teve-em-roraima" class="section level2">
+<h2>Quantos votos nominais o DEM (Democratas) teve em Roraima?</h2>
+<pre class="r"><code>baseVotacao %&gt;% 
+  filter(SIGLA_UF == &quot;RO&quot;, SIGLA_PARTIDO == &quot;DEM&quot;) %&gt;%
+  summarise(TOTAL = sum(QTDE_VOTOS_NOMINAIS, na.rm = TRUE))</code></pre>
+<pre><code>##   TOTAL
+## 1 74422</code></pre>
 </div>
 
 
