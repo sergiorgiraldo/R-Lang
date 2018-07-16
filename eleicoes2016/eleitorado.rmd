@@ -85,7 +85,11 @@ baseEleitorado %>%
 ##qual o partido que mais participou de coligações?
 
 ```{r}
-baseVotacao %>% 
-  mutate(split = str_split(COMPOSICAO_LEGENDA, "/"))
+baseVotacao$COMPOSICAO_LEGENDA  <- gsub(" ", "", baseVotacao$COMPOSICAO_LEGENDA )
+TODOS_PARTIDOS_COLIGADOS <- paste(baseVotacao$COMPOSICAO_LEGENDA)
+LIST_TODOS_PARTIDOS_COLIGADOS = stringr::str_split(TODOS_PARTIDOS_COLIGADOS, "/")
+ARR_TODOS_PARTIDOS_COLIGADOS = unlist(LIST_TODOS_PARTIDOS_COLIGADOS)
+table(ARR_TODOS_PARTIDOS_COLIGADOS)
+names(which(table(ARR_TODOS_PARTIDOS_COLIGADOS) == max(table(ARR_TODOS_PARTIDOS_COLIGADOS))))
 ```
 
