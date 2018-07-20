@@ -1,0 +1,45 @@
+---
+title: "Factors"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(forcats)
+library(dplyr)
+library(ggplot2)
+```
+
+## Fatores
+
+http://material.curso-r.com/forcats/
+
+```{r}
+d <- restaurantes_pressao <- read_delim("restaurantes_pressao.csv", 
+    ";", escape_double = FALSE, col_names = c("voluntario", "restaurante", "pressao"), 
+    trim_ws = TRUE)
+
+```
+
+###Sem fatores
+
+```{r}
+d %>% 
+ggplot(aes(x = restaurante, y = pressao)) +
+  geom_point() + 
+  theme_bw(15)
+
+```
+
+###Com fatores
+
+```{r}
+d %>% 
+mutate(restaurante = factor(restaurante, levels = c("Frutaria da vila", "Outlet", "Max Donalds"))) %>% 
+ggplot(aes(x = restaurante, y = pressao)) +
+  geom_point() + 
+  theme_bw(15)
+```
+
