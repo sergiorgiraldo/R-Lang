@@ -43,3 +43,31 @@ ggplot(aes(x = restaurante, y = pressao)) +
   theme_bw(15)
 ```
 
+###package forcats
+```{r}
+fator_1 <- factor(c("a","b","c"))
+fator_2 <- factor(c("d","e"))
+
+fator_3_sem_sentido <- c(fator_1, fator_2)
+fator_3_sem_sentido
+
+
+fator_3_com_sentido <- forcats::fct_c(fator_1, fator_2)
+fator_3_com_sentido
+
+fator <- factor(c("a","b","c"))
+fator
+novos_niveis <- c("c", "b", "a")
+  
+fator <- forcats::lvls_revalue(fator, novos_niveis)
+fator
+
+fator <- factor(c("a","a","a","b","b", "c", "d", "e"))
+
+fct_collapse(fator, b2 = c("b", "c"), a2 = c("a", "d"))
+fct_recode(fator, b2 = "b", b2 = "c", a2 = "a", a2 = "d")
+
+fct_lump(fator, 2, other_level = "Outros")
+
+```
+
