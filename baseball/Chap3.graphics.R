@@ -14,6 +14,8 @@ hof <- read.csv("C:\\Users\\sgiraldo\\source\\R\\baseball\\data\\hofbatting.csv"
 
 hof$MidCareer <- with(hof, (From + To) / 2)
 
+hof
+
 hof$Era <- cut(hof$MidCareer,
         breaks = c(1800, 1900, 1919, 1941, 1960, 1976, 1993, 2050),
         labels = c("19th Century", "Lively Ball", "Dead Ball",
@@ -109,7 +111,7 @@ boxplot(HR.Rate ~ Era, data=hof, las=2,
 
 # Section 3.8 Comparing Ruth, Aaron, Bonds, and A-Rod
 
-master <- read.csv("C:\\Users\\sgiraldo\\source\\R\\baseball\\data\\lahman/Master.csv")
+master <- read.csv("C:\\Users\\sgiraldo\\source\\R\\baseball\\data\\lahman\\Master.csv")
 
 getinfo <- function(firstname, lastname){
   playerline <- subset(master,
@@ -127,7 +129,7 @@ bonds.info <- getinfo("Barry", "Bonds")
 arod.info <- getinfo("Alex", "Rodriguez")
 ruth.info
 
-batting <- read.csv("C:\\Users\\sgiraldo\\source\\R\\baseball\\data\\lahman/Batting.csv")
+batting <- read.csv("C:\\Users\\sgiraldo\\source\\R\\baseball\\data\\lahman\\Batting.csv")
 
 ruth.data <- subset(batting, playerID == ruth.info$name.code)
 ruth.data$Age <- ruth.data$yearID - ruth.info$byear
