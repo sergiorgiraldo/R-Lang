@@ -37,4 +37,16 @@ lakers %>%
 
 ```
 
+##Quais os lances em que um arremesso foi feito com sucesso após um rebote do Pau Gasol
+
+```{r}
+#get lines from the shots
+indexes2 <- which(lakers$etype=="shot" & lakers$result=="made" & dplyr::lag(lakers$etype)=="rebound" & dplyr::lag(lakers$player)=="Pau Gasol")
+
+#get lines from the rebounds
+indexes1 <- which(lakers$etype=="shot" & lakers$result=="made" & dplyr::lag(lakers$etype)=="rebound" & dplyr::lag(lakers$player)=="Pau Gasol") - 1
+
+lakers[c(indexes1, indexes2),] %>% arrange(date, period, desc(time))
+
+```
 
