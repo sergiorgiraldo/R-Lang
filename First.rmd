@@ -1,5 +1,5 @@
 ---
-title: "First"
+title: "First - Sample"
 output: html_document
 ---
 
@@ -31,17 +31,17 @@ papelNaEmpresa <- c('desenvolvimento de software',
                        'desenvolvimento de software',
                        'arquitetura de software',
                        'desenvolvimento de software',
-                       'agentes de transformação',
-                       'gestão de processos',
+                       'agentes de transformaï¿½ï¿½o',
+                       'gestï¿½o de processos',
                        'desenvolvimento de software',
-                       'gestão de projetos',
+                       'gestï¿½o de projetos',
                        'desenvolvimento de software',
-                       'gestão de pessoas',
-                       'desenvolvimento de software',
-                       'desenvolvimento de software',
+                       'gestï¿½o de pessoas',
                        'desenvolvimento de software',
                        'desenvolvimento de software',
-                       'gestão de projetos',
+                       'desenvolvimento de software',
+                       'desenvolvimento de software',
+                       'gestï¿½o de projetos',
                        'dba/ad')
  
 tblpapelNaEmpresa <- table(papelNaEmpresa)
