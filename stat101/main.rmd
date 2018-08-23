@@ -1,0 +1,13 @@
+library(ggplot2)
+library(MASS)
+
+data("mpg", package = "ggplot2")
+
+summary(mpg$displ)
+
+graf_disp <- ggplot(mpg, aes(x=displ, y=cty)) +
+  geom_point(aes(col=fl)) +
+  geom_smooth(method="loess", se = F) +
+  labs(y = "Eficiência na Cidade (milhas por galão)", x = "Volume de Cilindradas (l)")
+ 
+plot(graf_disp)
