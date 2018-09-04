@@ -6,23 +6,47 @@ library("stringr")
 julho <- read.csv2("./NOTAS_JULHO.csv")
 
 # TODOS LONGTAIL
-LONGTAIL <-
+TODOSLONGTAIL <-
   julho %>% 
     na.omit() %>%
     mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
     group_by(GRUPO) %>%
     summarise( 
       ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-      ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+      ceiling(sqrt( 
+        (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+        ) ))
       ) %>%
     as.data.frame()
 
-colnames(LONGTAIL) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(TODOSLONGTAIL) <- c("GRUPO", "NOTA", "DESVIO")
+
+TODOSLONGTAIL
+
+# LONGTAIL
+
+LONGTAIL <-
+  julho %>% 
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  ) %>%
+  as.data.frame()
+
+colnames(LONGTAIL) <- c("NOTA", "DESVIO")
 
 LONGTAIL
-
-LONGTAIL %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
 
 # PF
@@ -31,18 +55,19 @@ PF <-
     filter(str_detect(GRUPO, "PF")) %>%
     na.omit() %>%
     mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-    group_by(GRUPO) %>%
     summarise( 
       ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-      ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+      ceiling(sqrt( 
+        (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+            (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+            (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+        ) ))
     )
 
-colnames(PF) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(PF) <- c("NOTA", "DESVIO")
 
 PF
-
-PF %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
 # PJ
 PJ <-
@@ -50,18 +75,19 @@ PJ <-
     filter(str_detect(GRUPO, "PJ")) %>%
     na.omit() %>%
     mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-    group_by(GRUPO) %>%
     summarise( 
       ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-      ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+      ceiling(sqrt( 
+        (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+            (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+            (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+        ) ))
     )
 
-colnames(PJ) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(PJ) <- c("NOTA", "DESVIO")
 
 PJ
-
-PJ %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
 # WEB
 WEB <-
@@ -69,18 +95,19 @@ WEB <-
     filter(str_detect(GRUPO, "WEB")) %>%
     na.omit() %>%
     mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-    group_by(GRUPO) %>%
     summarise( 
       ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-      ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+      ceiling(sqrt( 
+        (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+            (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+            (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+        ) ))
     )
 
-colnames(WEB) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(WEB) <- c("NOTA", "DESVIO")
 
 WEB
-
-WEB %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
 
 # MOBILE
@@ -89,25 +116,26 @@ MOBILE <-
     filter(str_detect(GRUPO, "MOBILE")) %>%
     na.omit() %>%
     mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-    group_by(GRUPO) %>%
     summarise( 
       ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-      ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+      ceiling(sqrt( 
+        (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+            (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+            (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+        ) ))
     )
 
-colnames(MOBILE) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(MOBILE) <- c("NOTA", "DESVIO")
 
 MOBILE
-
-MOBILE %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
 #AGOSTO
 
 agosto <- read.csv2("./NOTAS_agosto.csv")
 
 # TODOS LONGTAIL
-LONGTAIL <-
+TODOSLONGTAIL <-
   agosto %>% 
   filter(str_detect(GRUPO, "LONG TAIL")) %>%
   na.omit() %>%
@@ -115,19 +143,42 @@ LONGTAIL <-
   group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   ) %>%
   as.data.frame()
 
-colnames(LONGTAIL) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(TODOSLONGTAIL) <- c("NOTA", "DESVIO")
+
+TODOSLONGTAIL
+
+# LONGTAIL
+LONGTAIL <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  ) %>%
+  as.data.frame()
+
+colnames(LONGTAIL) <- c("NOTA", "DESVIO")
 
 LONGTAIL
 
-LONGTAIL %>%
-  summarise(sqrt(sum((DESVIO^2))))
-
 # TODOS GV
-GV <-
+TODOSGV <-
   agosto %>% 
   filter(str_detect(GRUPO, "GV")) %>%
   na.omit() %>%
@@ -135,54 +186,126 @@ GV <-
   group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   ) %>%
   as.data.frame()
 
-colnames(GV) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(TODOSGV) <- c("GRUPO", "NOTA", "DESVIO")
+
+TODOSGV
+
+#GV
+
+GV <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "GV")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  ) %>%
+  as.data.frame()
+
+colnames(GV) <- c("NOTA", "DESVIO")
 
 GV
 
-GV %>%
-  summarise(sqrt(sum((DESVIO^2))))
 
-# PF
-PF <-
+# PF LT
+PFLT <-
   agosto %>% 
   filter(str_detect(GRUPO, "PF")) %>%
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
   na.omit() %>%
   mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-  group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   )
 
-colnames(PF) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(PFLT) <- c("NOTA", "DESVIO")
 
-PF
+PFLT
 
-PF %>%
-  summarise(sqrt(sum((DESVIO^2))))
+# PF GV
+PFGV <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "PF")) %>%
+  filter(str_detect(GRUPO, "GV")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
 
-# PJ
-PJ <-
+colnames(PFGV) <- c("NOTA", "DESVIO")
+
+PFGV
+
+# PJLT
+PJLT <-
   agosto %>% 
   filter(str_detect(GRUPO, "PJ")) %>%
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
   na.omit() %>%
   mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-  group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   )
 
-colnames(PJ) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(PJLT) <- c("NOTA", "DESVIO")
 
-PJ
+PJLT
 
-PJ %>%
-  summarise(sqrt(sum((DESVIO^2))))
+# PJGV
+PJGV <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "PJ")) %>%
+  filter(str_detect(GRUPO, "GV")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
+
+colnames(PJGV) <- c("NOTA", "DESVIO")
+
+PJGV
+
 
 # WEB
 WEB <-
@@ -190,18 +313,61 @@ WEB <-
   filter(str_detect(GRUPO, "WEB")) %>%
   na.omit() %>%
   mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-  group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+          (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   )
 
-colnames(WEB) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(WEB) <- c("NOTA", "DESVIO")
 
 WEB
 
-WEB %>%
-  summarise(sqrt(sum((DESVIO^2))))
+# WEBLT
+WEBLT <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "WEB")) %>%
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
+
+colnames(WEBLT) <- c("NOTA", "DESVIO")
+
+WEBLT
+
+# WEBGV
+WEBGV <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "WEB")) %>%
+  filter(str_detect(GRUPO, "GV")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
+
+colnames(WEBGV) <- c("NOTA", "DESVIO")
+
+WEBGV
 
 
 # MOBILE
@@ -210,16 +376,60 @@ MOBILE <-
   filter(str_detect(GRUPO, "MOBILE")) %>%
   na.omit() %>%
   mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
-  group_by(GRUPO) %>%
   summarise( 
     ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
-    ceiling(sqrt( (var(PROMOTOR)^2 + var(DETRATOR)^2)/ var(NOTA)^2 ) * 100)
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
   )
 
-colnames(MOBILE) <- c("GRUPO", "NOTA", "DESVIO")
+colnames(MOBILE) <- c("NOTA", "DESVIO")
 
 MOBILE
 
-MOBILE %>%
-  summarise(sqrt(sum((DESVIO^2))))
+# MOBILELT
 
+MOBILELT <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "MOBILE")) %>%
+  filter(str_detect(GRUPO, "LONG TAIL")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
+
+colnames(MOBILELT) <- c("NOTA", "DESVIO")
+
+MOBILELT
+
+# MOBILEGV
+
+MOBILEGV <-
+  agosto %>% 
+  filter(str_detect(GRUPO, "MOBILE")) %>%
+  filter(str_detect(GRUPO, "GV")) %>%
+  na.omit() %>%
+  mutate(PROMOTOR = (NOTA > 8), DETRATOR = (NOTA < 7)) %>%
+  summarise( 
+    ceiling(((sum(PROMOTOR) - sum(DETRATOR)) / n()) * 100),
+    ceiling(sqrt( 
+      (100^2 / n()) * ( 
+        (sum(PROMOTOR)/n()) * (1 - (sum(PROMOTOR)/n())) + 
+          (sum(DETRATOR)/n()) * (1 - (sum(DETRATOR)/n())) + 
+          (2 * (sum(PROMOTOR)/n()) * (sum(DETRATOR)/n()))  
+      ) ))
+  )
+
+colnames(MOBILEGV) <- c("NOTA", "DESVIO")
+
+MOBILEGV
