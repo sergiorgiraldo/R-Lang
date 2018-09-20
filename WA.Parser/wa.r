@@ -18,7 +18,19 @@
                         stringsAsFactors = FALSE)
   
   # data processing ---------------------------
-  beginMsgPattern <- "^(\\d{1,2}/\\d{1,2}/\\d{2}),\\s(\\d{2}:\\d{2})\\s-\\s(.*?):\\s(.*)"
+  patterns <- list(
+      c("^(\\d{1,2}/\\d{1,2}/\\d{2}),\\s(\\d{2}:\\d{2})\\s-\\s(.*?):\\s(.*)", "mdy"),
+      c("^(\\d{1,2}/\\d{1,2}/\\d{2})\\s(\\d{2}:\\d{2})\\s-\\s(.*?):\\s(.*)", "dmy"))
+  
+  for (i in 1:length(patterns))
+  {
+    if (sum(str_detect(chat, patterns[[i]]), na.rm=TRUE) > 0){
+      beginMsgPattern <- patterns[[i]][1]
+      dateFormat <- patterns[[i]][2]
+      break
+    }  
+  }  
+
   auxIndex <- 0
   auxContent <- ""
   
@@ -42,7 +54,13 @@
   chat.df <- subset(chat.df, content != "c.na")
   
   # data transformation ---------------------------
-  chat.df[,1] <- mdy(chat.df[,1])
+  if (dateFormat == "mdy"){
+    chat.df[,1] <- mdy(chat.df[,1])  
+  }
+  if (dateFormat == "dmy"){
+    chat.df[,1] <- dmy(chat.df[,1])  
+  }
+
   chat.df[,2] <- hm(chat.df[,2])
   chat.df$periodOfTheDay <- with(chat.df,  
                               ifelse(hour(time) >= 0 & hour(time) <= 5, "madrugada",
