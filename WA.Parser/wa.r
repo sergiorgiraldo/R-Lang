@@ -4,7 +4,7 @@
   library("DT")
   library("ggplot2")
   
-  history <-  "C:\\Users\\sgiraldo\\Downloads\\WhatsAppChat.txt"
+  history <-  "WhatsAppChat.txt"
   
   # import data ---------------------------
   chat <- readr::read_lines(history, locale = readr::locale(encoding = "UTF-8"))
@@ -44,13 +44,26 @@
   # data transformation ---------------------------
   chat.df[,1] <- mdy(chat.df[,1])
   chat.df[,2] <- hm(chat.df[,2])
+  chat.df$periodOfTheDay <- with(chat.df,  
+                              ifelse(hour(time) >= 0 & hour(time) <= 5, "madrugada",
+                              ifelse(hour(time) > 5 & hour(time) <= 12, "manhã", 
+                              ifelse(hour(time) > 12 & hour(time) <= 18, "tarde", 
+                              "noite"))))
   
   # data insights ---------------------------
+  
+  #autores - total
+  chat.df %>% 
+    summarise(n_distinct(author))
+  
+  #autores - saíram
+  sum(str_count(chat.df$content, "left"))
+  
   
   #posts por autor
   chat.df %>% 
     group_by(author) %>% 
-    summarize(count= n()) %>%
+    summarize(count = n()) %>%
     arrange(desc(count)) %>%
     datatable(caption="POsts por autor")
 
@@ -61,8 +74,9 @@
     datatable(caption="Posts por dia")
   
   #media de posts por dia
-  nrow(chat.df) / as.numeric(today() - chat.df[1,1]) 
+  ceiling(nrow(chat.df) / as.numeric(today() - chat.df[1,1])) 
 
+  #melhor e pior dia em número de posts
   chat.df %>% 
     group_by(day) %>%
     summarize(count = n()) %>%
@@ -81,5 +95,18 @@
   #tempo que o autor escreve
   chat.df %>% 
     group_by(author) %>%
-    summarise(Timespan= difftime(today(), first(day), unit='days')) %>% 
+    summarise(DaysInWA= difftime(today(), first(day), unit='days')) %>% 
     datatable(caption="Tempo do autor no chat")
+
+  #posts por período
+  chat.df %>% 
+    group_by(periodOfTheDay) %>%
+    summarize(count = n()) %>% 
+    mutate(percentage = paste0(round(count/sum(count)*100, 2), "%"))
+
+  #posts por dia da semana
+  chat.df %>% 
+    group_by(wday(day)) %>%
+    summarize(count = n()) %>% 
+    mutate(percentage = paste0(round(count/sum(count)*100, 2), "%"))
+  
