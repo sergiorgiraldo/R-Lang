@@ -98,6 +98,17 @@
     summarise(DaysInWA= difftime(today(), first(day), unit='days')) %>% 
     datatable(caption="Tempo do autor no chat")
 
+  #posts por hora
+  chat.df %>% 
+    group_by(hour(time)) %>%
+    summarize(count = n()) %>% 
+    mutate(percentage = paste0(round(count/sum(count)*100, 2), "%"))  %>%
+    arrange() %>% 
+    datatable(caption="Posts por hora")
+  
+  ggplot(data=chat.df, aes(hour(chat.df$time))) + 
+    geom_histogram(col="white", fill="gray") 
+
   #posts por período
   chat.df %>% 
     group_by(periodOfTheDay) %>%
@@ -106,7 +117,7 @@
 
   #posts por dia da semana
   chat.df %>% 
-    group_by(wday(day)) %>%
+    group_by(wday(day, label = TRUE)) %>%
     summarize(count = n()) %>% 
     mutate(percentage = paste0(round(count/sum(count)*100, 2), "%"))
   
