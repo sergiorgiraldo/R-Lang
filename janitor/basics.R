@@ -19,7 +19,11 @@ roster %>%
     get_dupes(first_name, last_name)
 
 roster %>%
-    tabyl(subject)
+    tabyl(subject) 
+
+roster %>%
+    tabyl(subject) %>%
+    adorn_totals("row")  
 
 roster %>%
   filter(hire_date > as.Date("1950-01-01")) %>%
