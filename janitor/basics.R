@@ -2,7 +2,7 @@ library("dplyr")
 library("janitor")
 library("readxl")
 
-roster_raw <- read_excel(file.path(getwd(), "dirty_data.xlsx")) 
+roster_raw <- read_excel(file.path("c:/Users/Sergio/source/R-Lang/janitor", "dirty_data.xlsx")) 
 
 glimpse(roster_raw)
 
@@ -34,5 +34,16 @@ roster %>%
   tabyl(full_time, employee_status)  
 
 roster %>%
+  tabyl(full_time, subject, employee_status, show_missing_levels = FALSE)
+
+roster %>%
   tabyl(employee_status, sort = TRUE) %>%
   adorn_totals("row")  
+
+roster %>%
+  tabyl(employee_status, full_time) %>%
+  adorn_totals("row") %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  adorn_title("combined")  
