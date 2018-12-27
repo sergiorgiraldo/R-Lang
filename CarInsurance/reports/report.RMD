@@ -1,6 +1,4 @@
 ---
-title: "AUTO1 Group - Data Science Challenge"
-author: "Lucas Peinado Bruscato"
 output: html_document
 editor_options: 
   chunk_output_type: console
