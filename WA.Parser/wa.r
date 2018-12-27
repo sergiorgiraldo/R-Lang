@@ -139,3 +139,13 @@
     summarize(count = n()) %>% 
     mutate(percentage = paste0(round(count/sum(count)*100, 2), "%"))
   
+    ggplot(chat.df, aes(day)) +
+    geom_density()
+    
+    chat.df %>%
+      group_by(day) %>%
+      summarise(cnt = n()) %>% 
+      ggplot(aes(x=day, y=cnt)) +
+      geom_line() + 
+      geom_point() 
+  

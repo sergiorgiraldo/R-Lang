@@ -75,6 +75,11 @@ Now, to understand more about the data and start answering the challenge's quest
 data.frame(IS_FACTOR = sapply(fullDataset, function(x) sum(is.factor(x)))) %>% 
   datatable(colnames = c('Features', 'Is a factor?'), options = list(pageLength = 5))
 
+#SRG: showing only factors
+data.frame(IS_FACTOR = sapply(fullDataset, function(x) sum(is.factor(x)))) %>% 
+  subset(IS_FACTOR == 1) %>% 
+  datatable(colnames = c('Features', 'Is a factor?'), options = list(pageLength = 5))
+
 # exploratory analysis of dataset
 summary(fullDataset)
 
