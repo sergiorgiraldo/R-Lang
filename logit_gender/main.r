@@ -25,6 +25,7 @@ print(summary(model))
 plot(model)
 
 
+
 featureImportance <- varImp(model, scale = FALSE)
 featureImportanceDf <- data.frame(FEATURE = row.names(featureImportance),
                                   IMPORTANCE = featureImportance$Overall)
